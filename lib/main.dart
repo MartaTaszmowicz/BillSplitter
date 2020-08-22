@@ -48,9 +48,9 @@ calculateTotalTip(double billAmount, int splitBy, int tipPrecentage) {
 }
 
 class _BillSplitterState extends State<BillSplitter> {
-  int _tipPrecentage = 1;
-  int _personCounter = 1;
-  double _billAmount = 0.0;
+  int _tipPrecentage = 5;
+  int _personCounter = 2;
+  double _billAmount = 100.0;
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +103,9 @@ class _BillSplitterState extends State<BillSplitter> {
             ),
             child: Column(
               children: [
-                TextField(
+                TextFormField(
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  initialValue: _billAmount.toString(),
                   style: TextStyle(
                       color: getPurple(),
                       fontWeight: FontWeight.bold,
