@@ -29,9 +29,12 @@ Color getPurple([double opacity = 1.0]) {
   return color.withOpacity(opacity);
 }
 
-calculateTotalPerPerson(double totalTip, double billAmout, int splitBy) {
-  var totalPerPerson = (totalTip + billAmout) / splitBy;
-  return totalPerPerson;
+calculateTotalPerPerson(double billAmount, int splitBy, int tipPrecentage) {
+  double totalPerPerson =
+      (calculateTotalTip(billAmount, splitBy, tipPrecentage) + billAmount) /
+          splitBy;
+
+  return totalPerPerson.toStringAsFixed(2);
 }
 
 calculateTotalTip(double billAmount, int splitBy, int tipPrecentage) {
@@ -45,9 +48,9 @@ calculateTotalTip(double billAmount, int splitBy, int tipPrecentage) {
 }
 
 class _BillSplitterState extends State<BillSplitter> {
-  int _tipPrecentage = 0;
+  int _tipPrecentage = 1;
   int _personCounter = 1;
-  double _billAmout = 0.0;
+  double _billAmount = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,7 @@ class _BillSplitterState extends State<BillSplitter> {
                     ),
                   ),
                   Text(
-                    " \$ $_billAmout",
+                    " \$ ${calculateTotalPerPerson(_billAmount, _personCounter, _tipPrecentage)}",
                     style: TextStyle(
                         color: getPurple(),
                         fontSize: 36,
@@ -113,9 +116,9 @@ class _BillSplitterState extends State<BillSplitter> {
                   onChanged: (String value) {
                     setState(() {
                       try {
-                        _billAmout = double.parse(value);
+                        _billAmount = double.parse(value);
                       } catch (e) {
-                        _billAmout = 0;
+                        _billAmount = 0;
                       }
                     });
                   },
@@ -204,7 +207,7 @@ class _BillSplitterState extends State<BillSplitter> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        "\$ ${calculateTotalTip(_billAmout, _personCounter, _tipPrecentage)}",
+                        "\$ ${calculateTotalTip(_billAmount, _personCounter, _tipPrecentage)}",
                         style: TextStyle(
                             color: getPurple(),
                             fontWeight: FontWeight.bold,
